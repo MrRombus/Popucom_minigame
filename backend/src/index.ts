@@ -1,9 +1,13 @@
-import express from "express"
+import { App as uServer } from 'uWebSockets.js'
+import { config } from './config'
 
-const app = express()
-app.get("/", (req, res) => {
-    res.send("hello San")
+export const app = uServer()
+
+import './controller.http'
+import './controller.sockets'
+
+app.listen(config.PORT, () => {
+    console.log('server started on port ' + config.PORT)
 })
-app.listen(3001, () => {
-    console.log("server started")
-})
+
+process.on("uncaughtException", console.error)

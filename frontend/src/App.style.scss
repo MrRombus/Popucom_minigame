@@ -4,16 +4,51 @@ body {
     width: 100vw;
 
     > #root {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         height: inherit;
         width: inherit;
 
-        > iframe {
-            height: 100%;
-            width: 100%;
-            border: unset;
+        > .container {
+            padding: 1rem;
+
+            > button {
+                height: 2rem;
+                width: 16rem;
+                margin-bottom: 1rem;
+            }
+
+            > .messages {
+                display: flex;
+                flex-direction: column;
+
+                > .message {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    &__out {
+                        > svg {
+                            fill: limegreen !important
+                        }
+                    }
+
+                    &__in {
+                        > svg {
+                            fill: orange !important
+                        }
+                    }
+
+                    &__verbose {
+                        > svg {
+                            fill: darkmagenta !important
+                        }
+                    }
+
+                    > svg {
+                        margin-block: -1px;
+                        margin-inline: 2px;
+                    }
+                }
+            }
         }
     }
 }

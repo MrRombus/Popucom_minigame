@@ -4,7 +4,7 @@
     "noImplicitOverride": true,
     "sourceMap": true,
     "module": "nodenext",
-    "target": "es2024",
+    "target": "esnext",
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "moduleResolution": "nodenext",

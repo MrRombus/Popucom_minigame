@@ -1,7 +1,7 @@
 import path from "path"
 import fs from "fs"
 import { fileURLToPath } from "url"
-import { HtmlRspackPlugin, SwcJsMinimizerRspackPlugin, LightningCssMinimizerRspackPlugin, CopyRspackPlugin } from "@rspack/core"
+import { HtmlRspackPlugin, SwcJsMinimizerRspackPlugin, LightningCssMinimizerRspackPlugin, CopyRspackPlugin, DefinePlugin } from "@rspack/core"
 import { TsCheckerRspackPlugin } from "ts-checker-rspack-plugin"
 import ReactRefreshRspackPlugin from "@rspack/plugin-react-refresh"
 import type { Configuration, NormalModule } from "@rspack/core"
@@ -53,11 +53,11 @@ const config: Configuration = {
             }
         },
         minimizer: [
-			new SwcJsMinimizerRspackPlugin(),
-			new LightningCssMinimizerRspackPlugin({
-				minimizerOptions: { targets }
-			})
-		]
+            new SwcJsMinimizerRspackPlugin(),
+            new LightningCssMinimizerRspackPlugin({
+                minimizerOptions: { targets }
+            })
+        ]
     },
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.css', '.scss', '.sass'],
@@ -79,9 +79,9 @@ const config: Configuration = {
     module: {
         rules: [
             {
-				test: /\.[jt]sx?$/i,
+                test: /\.[jt]sx?$/i,
                 exclude: PATH_NODE_MODULES_FOLDER,
-				use: {
+                use: {
                     loader: 'builtin:swc-loader',
                     options: {
                         jsc: {
@@ -100,7 +100,7 @@ const config: Configuration = {
                         env: { targets }
                     } as SwcConfig
                 }
-			},
+            },
             {
                 test: /\.s?[ca]ss$/i,
                 use: {
@@ -113,17 +113,23 @@ const config: Configuration = {
                 type: 'css/auto'
             },
             {
-				test: /\.svg$/i,
-				type: 'asset'
-			}
+                test: /\.svg$/i,
+                resourceQuery: /url/,
+                type: 'asset/resource'
+            },
+            {
+                test: /\.svg$/i,
+                resourceQuery: { not: [/url/] },
+                use: '@svgr/webpack'
+            }
         ]
     },
     plugins: [
         new TsCheckerRspackPlugin(),
         new HtmlRspackPlugin({
-			template: PATH_PUBLIC_ENTRY,
+            template: PATH_PUBLIC_ENTRY,
             filename: 'index.html?[fullhash:8]'
-		}),
+        }),
         new CopyRspackPlugin({
             patterns: fs.readdirSync(PATH_PUBLIC_FOLDER, { withFileTypes: true }).map((file) => {
                 const location = path.join(file.parentPath, file.name)
@@ -132,17 +138,15 @@ const config: Configuration = {
                 return { from: location }
             }).filter((location) => location.from != PATH_PUBLIC_ENTRY)
         }),
-        IS_DEVELOPMENT
-            ? new ReactRefreshRspackPlugin()
-            : null
+        IS_DEVELOPMENT && new ReactRefreshRspackPlugin()
     ],
     experiments: {
-		css: true,
+        css: true,
         cache: {
             type: 'persistent',
             buildDependencies: [__filename, PATH_TS_CONFIG]
         }
-	}
+    }
 }
 
 export default config
