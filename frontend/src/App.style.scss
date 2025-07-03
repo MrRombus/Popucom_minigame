@@ -6,49 +6,5 @@ body {
     > #root {
         height: inherit;
         width: inherit;
-
-        > .container {
-            padding: 1rem;
-
-            > button {
-                height: 2rem;
-                width: 16rem;
-                margin-bottom: 1rem;
-            }
-
-            > .messages {
-                display: flex;
-                flex-direction: column;
-
-                > .message {
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-
-                    &__out {
-                        > svg {
-                            fill: limegreen !important
-                        }
-                    }
-
-                    &__in {
-                        > svg {
-                            fill: orange !important
-                        }
-                    }
-
-                    &__verbose {
-                        > svg {
-                            fill: darkmagenta !important
-                        }
-                    }
-
-                    > svg {
-                        margin-block: -1px;
-                        margin-inline: 2px;
-                    }
-                }
-            }
-        }
     }
 }
