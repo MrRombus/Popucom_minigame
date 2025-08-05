@@ -9,10 +9,12 @@ export function clamp(value: number, min: number, max?: number) {
 export class Point {
     x: number
     y: number
+    state: "empty" | "hitP1" | "hitP2" | "paintP1" | "paintP2" | "hitPaintP1" | "hitPaintP2"
 
-    constructor(x: number, y: number) {
+    constructor(x: number, y: number, state: "empty" | "hitP1" | "hitP2" | "paintP1" | "paintP2" | "hitPaintP1" | "hitPaintP2") {
         this.x = x
         this.y = y
+        this.state = state
     }
 }
 
